@@ -1,0 +1,55 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    width: 100%;
+    font-family: "Microsoft YaHei";
+}
+h1{
+    text-align: center;
+    margin-bottom: 2em;
+}
+.inputname{
+    overflow: hidden;
+    display: block;
+    margin-top:10%;
+    width: 50%;
+    margin-left: 25%;
+}
+.inputname2{
+    display: none;
+    margin-top:5%;
+    width: 50%;
+    margin-left: 25%;
+}
+.inputname label{
+    width: 20%;
+}
+.inputname input{
+    border: none;
+    border-bottom: solid 0.1em;;
+    width:70%;
+    outline: none;
+    font-size: 1.1em;
+    font-family: "simsun";
+}
+.name{
+    margin-bottom: 1em;
+}
+button{
+    width: 100%;
+    border: none;
+    background: rgb(236, 97, 73);
+    height: 2em;
+    color: rgb(255,255,255);
+    font-size: 1.2em;
+    border-radius: 0.2em;
+}
+
+#main{
+    margin-top: 1em;
+    width: 80%;
+    height: 400px;
+    margin-left: 10%;
+}

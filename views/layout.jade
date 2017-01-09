@@ -1,0 +1,149 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title 2017
+    meta(content='initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='format-detection', content='telephone=no')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/echarts.min.js')
+    script(src='/javascripts/infographic.js')
+    script(src='/javascripts/md5.min.js')
+  body
+    #inputname.inputname
+      h1 2017，爱情
+      .name
+        label(for='name') 姓名
+        input#username(type='text')
+      button#but(onclick='decodeName()') 确 认
+    #main
+    #closebutton.inputname2
+      button(onclick='closeEchats()') 关 闭
+    script(type='text/javascript').
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'),'infographic');
+      // 指定图表的配置项和数据
+      //处理用户输入的姓名
+      var decodeName = function(){
+      var username = document.getElementById('username').value;
+      if(username==''){
+      // console.log(11);
+      return false;
+      }
+      var bu = document.getElementById("closebutton"),
+      usern = document.getElementById('inputname');
+      bu.style.display = 'block';
+      usern.style.display = "none";
+      var namereg = /\d/g,
+      PieNum = 0,
+      NumberOfName = 0;
+      // console.log(username);
+      NumberOfName=md5(username).match(namereg);
+      switch(NumberOfName[12]%3){
+      case 0:
+      PieNum = 2;
+      selectWords(diviPie(PieNum),PieNum);
+      break;
+      case 1:
+      PieNum = 3;
+      selectWords(diviPie(PieNum),PieNum);
+      break;
+      case 2:
+      PieNum = 4;
+      selectWords(diviPie(PieNum),PieNum);
+      break;
+      }
+      function diviPie(num){
+      var PieNumber = 12/num,
+      PieNumberStore = PieNumber,//保存初始的值
+      PieNumSum = [0,0,0,0,0,0],             //设定数组，保存分开的数
+      ArrayI = 0;
+      for(var i=0;i<12;i++){
+      PieNumSum[ArrayI] += NumberOfName[0]*Math.pow(10,(PieNumber-1));
+      if(PieNumber == 1){
+      PieNumber = PieNumberStore;
+      ArrayI++;
+      }else{
+      PieNumber--;
+      }
+      NumberOfName.shift();
+      }
+      // console.log(PieNumSum);
+      return PieNumSum;
+      }
+      function compare(value1,value2){
+      if(value1<value2){
+      return -1;
+      }else if(value1>value2){
+      return 1;
+      }else{
+      return 0;
+      }
+      }
+      //选择单词，根据计算的数据
+      function selectWords(arrayNum,num){
+      var PieNumber = 12/num,
+      arrayNumRem = [],
+      arrayWords = [];
+      arrayNum = arrayNum.slice(0,num);
+      arrayNum = arrayNum.map(function(item){return item%30});
+      arrayNum.sort(compare);
+      // console.log(arrayNum);
+      for(i=0;i<num-1;i++){
+      if(arrayNum[i+1]==arrayNum[i]){
+      arrayNum[i+1]++;
+      }
+      }
+      // console.log(arrayNum);
+      for(i=0;i<num;i++){
+      arrayWords[i] = ShowData[arrayNum[i]];
+      }
+      creatCharts(arrayNum,arrayWords,num);
+      }
+      //创建图表
+      function creatCharts(arrayNum,arrayWords,num){
+      var ChartsData = [];
+      for(i=0;i<num;i++){
+      ChartsData.push({value:arrayNum[i],name:arrayWords[i]});
+      }
+      var option = {
+      title : {
+      text: '2017你的爱情来自哪里',
+      subtext: '',
+      x:'center'
+      },
+      series : [
+      {
+      name: '访问来源',
+      type: 'pie',
+      hoverAnimation:false,
+      roseType:false,
+      radius : '55%',
+      center: ['50%', '50%'],
+      data:ChartsData,
+      itemStyle: {
+      emphasis: {
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowColor: 'rgba(0, 0, 0, 0.5)'
+      }
+      }
+      }
+      ]
+      };
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+      }
+      }
+      var ShowData = ["食堂","氪星球","菜市场","图书馆","博文楼","逸夫楼","山大路","酒吧","火车站","咖啡厅",
+      "非诚勿扰","世纪佳缘","夜店","宿舍上铺","餐厅","酒店","健身房","酒馆","超市","十字路口",
+      "医院","雪山","星巴克","公交车","美国","篮球场","上海","德国","耶路撒冷","南非","枣庄"];
+      function closeEchats(){
+      // var bu = document.getElementById("closebutton"),
+      //     usern = document.getElementById('inputname');
+      // bu.style.display = 'none';
+      // usern.style.display = "block";
+      // myChart.clear();
+      self.location='./index.html';
+      }
